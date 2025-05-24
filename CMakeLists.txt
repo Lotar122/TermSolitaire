@@ -14,6 +14,13 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(TermSolitaire PRIVATE DEBUG)
 endif()
 
+if(WIN32)
+	target_compile_definitions(TermSolitaire PRIVATE Windows)
+endif()
+if (MSVC)
+    add_compile_options(/utf-8)
+endif()
+
 target_include_directories(TermSolitaire
 	PUBLIC
 	${CMAKE_SOURCE_DIR},

@@ -64,7 +64,7 @@ void Display::renderCardFromPile(const std::vector<Card*>& pile, uint8_t pileID,
 		{
 			for(int xi = x; xi < x + cardWidth; xi++)
 			{
-				for(int yi = mainPileCounters[pileID] == 18 ? y : y + cardHeight - 2; yi < y + cardHeight; yi++)
+				for(int yi = mainPileCounters[pileID] == 18 ? y : y + cardHeight - 2; yi < y + cardHeight && yi < screenMapHeight; yi++)
 				{
 					screen[yi][xi] = U' ';
 				}
