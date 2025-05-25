@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <charconv>
+#include <system_error>
 
 #include "Classes/Card/Card.hpp"
 
@@ -17,7 +18,11 @@ class Logic
 		auto end = std::find_if(stringView.rbegin(), stringView.rend(), isNotSpace).base();
 
 		if (begin >= end) return {};
-		return std::string_view(begin, static_cast<size_t>(end - begin));
+
+		size_t startOffset = static_cast<size_t>(begin - stringView.begin());
+		size_t length = static_cast<size_t>(end - begin);
+
+		return std::string_view(stringView.data() + startOffset, length);
 	}
 
 	static std::pair<std::string_view, std::string_view> parseInput(std::string_view input) 

@@ -118,7 +118,7 @@ void Logic::handle(
 				}
 			}
 			else if(
-				leftHand->size() > 1 && rightHand->size() == 0 &&
+				leftHand->size() > 0 && rightHand->size() == 0 &&
 				leftHand->back()->_rank() == CardRank::King
 			)
 			{

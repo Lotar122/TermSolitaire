@@ -8,6 +8,7 @@
 #include <ranges>
 #include <algorithm>
 #include <cstring>
+#include <string>
 
 #include "Classes/Display/Display.hpp"
 #include "Classes/Input/Input.hpp"
@@ -49,6 +50,8 @@ class Game
 
     uint16_t score = 0, moves = 0;
 public:
+    bool stop = false;
+
     std::unordered_map<BytePair, char32_t*> cardSpriteManager;
 
     Game()
@@ -83,9 +86,9 @@ public:
         std::memcpy(drawStack->data(), shuffledDeck.data() + shuffledDeckIndex, drawStack->size() * sizeof(Card*));
     }
 
-    void update()
+    int update()
     {
-        if(input._inputBuffer() == std::string("draw") || input._inputBuffer() == std::string("Draw"))
+        if(std::strcmp("draw", input._inputBuffer().data()) == 0 || std::strcmp("Draw", input._inputBuffer().data()) == 0)
         {
             if(drawStack->size() > 0)
             {
@@ -106,6 +109,14 @@ public:
 
                 std::ranges::shuffle(*drawStack, randomEngine);
             }
+        }
+        else if (std::strcmp("exit", input._inputBuffer().data()) == 0 || std::strcmp("Exit", input._inputBuffer().data()) == 0)
+        {
+            stop = true;
+        }
+        else if (std::strcmp("restart", input._inputBuffer().data()) == 0 || std::strcmp("Restart", input._inputBuffer().data()) == 0)
+        {
+            return 1;
         }
         else
         {
@@ -129,6 +140,20 @@ public:
             score, moves
         );
 
-        input.readInput();
+        if (!stop)
+        {
+            //goes to the beggining of the line
+            fputs("\r", stdout);
+            fputs("Command: ", stdout);
+
+            input.readInput();
+
+            //moves one line up
+            fputs("\x1b[1A", stdout);
+            //clears the current line
+            fputs("\x1b[2K", stdout);
+        }
+
+        return 0;
     }
 };
