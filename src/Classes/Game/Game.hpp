@@ -12,8 +12,26 @@
 #include "Classes/Display/Display.hpp"
 #include "Classes/Input/Input.hpp"
 #include "Classes/Card/Card.hpp"
+#include "Classes/Logic/Logic.hpp"
 
 #include "Structs/BytePair.hpp"
+
+enum class SidePileEnum : uint8_t
+{
+    Draw = 0,
+    
+    ePile = 1,
+    aPile = 2,
+    bPile = 3,
+    cPile = 4,
+    dPile = 5,
+
+    E = 1,
+    A = 2,
+    B = 3,
+    C = 4,
+    D = 5
+};
 
 class Game
 {
@@ -62,7 +80,7 @@ public:
         }
 
         drawStack->resize(shuffledDeck.size() - shuffledDeckIndex);
-        std::memcpy(drawStack->data(), shuffledDeck.data() + shuffledDeckIndex, drawStack->size());
+        std::memcpy(drawStack->data(), shuffledDeck.data() + shuffledDeckIndex, drawStack->size() * sizeof(Card*));
     }
 
     void update()
@@ -72,13 +90,14 @@ public:
             if(drawStack->size() > 0)
             {
                 sidePiles[1].push_back(drawStack->at(drawStack->size() - 1));
-                drawStack->at(drawStack->size() - 1)->up = true;
+                drawStack->back()->up = true;
                 drawStack->erase(drawStack->begin() + drawStack->size() - 1);
             }
             else
             {
                 //copy the eStack into the drawStack
                 *drawStack = sidePiles[1];
+                sidePiles[1].clear();
 
                 for(int i = 0; i < drawStack->size(); i++)
                 {
@@ -91,11 +110,11 @@ public:
         else
         {
             try {
-                // Logic::handle(
-                //     input._inputBuffer(),
-                //     mainPiles, 
-                //     sidePiles
-                // );
+                Logic::handle(
+                    input._inputBuffer(),
+                    mainPiles, 
+                    sidePiles
+                );
             }
             catch(const std::system_error& err)
             {

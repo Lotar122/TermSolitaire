@@ -11,6 +11,7 @@
 #include "Concepts/Integer.hpp"
 #include "Concepts/Numeric.hpp"
 #include "Concepts/Callable.hpp"
+#include "Concepts/StdVector.hpp"
 
 #include "Functions/printUTF32.hpp"
 

@@ -89,4 +89,10 @@ public:
     {
         return up ? cardSprite[y * cardWidth + x] : cardBackSprite[y * cardWidth + x];
     }
+
+    const inline bool isRed() const { return color == CardColor::Diamonds || color == CardColor::Hearts; };
+    const inline bool isBlack() const { return color == CardColor::Spades || color == CardColor::Clubs; };
+
+    const inline CardColor _color() { return color; };
+    const inline CardRank _rank() { return rank; };
 };

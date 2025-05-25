@@ -12,5 +12,5 @@ public:
         std::getline(std::cin, inputBuffer);
     }
 
-    inline const std::string& _inputBuffer() const { return inputBuffer; };
+    inline std::string& _inputBuffer() { return inputBuffer; };
 };
