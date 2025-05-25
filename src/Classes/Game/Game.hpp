@@ -17,7 +17,7 @@
 
 #include "Structs/BytePair.hpp"
 
-const char32_t* gameWin = UR"(┌──────────────────────────────────────────────────────────────────────────────┐
+static const char32_t* gameWin = UR"(┌──────────────────────────────────────────────────────────────────────────────┐
 |                                                                              |
 |                                                                              |
 |                                                                              |
@@ -38,11 +38,11 @@ const char32_t* gameWin = UR"(┌───────────────�
 |                                                                              |
 |                                                                              |
 |                                                                              |
-|                                                                              |
-|                                                                              |
-|                                                                              |
-|                                                                              |
-|                                                                              |
+|                  __   __           __        __          _                   |
+|                  \ \ / /__  _   _  \ \      / /__  _ __ | |                  |
+|                   \ V / _ \| | | |  \ \ /\ / / _ \| '_ \| |                  |
+|                    | | (_) | |_| |   \ V  V / (_) | | | |_|                  |
+|                    |_|\___/ \__,_|    \_/\_/ \___/|_| |_(_)                  |
 |                                                                              |
 |                                                                              |
 |                                                                              |
@@ -135,6 +135,23 @@ public:
 
     int update()
     {
+        if(
+            !sidePiles[(int)SidePileEnum::A].empty() &&
+            !sidePiles[(int)SidePileEnum::B].empty() &&
+            !sidePiles[(int)SidePileEnum::C].empty() &&
+            !sidePiles[(int)SidePileEnum::D].empty() &&
+            
+            sidePiles[(int)SidePileEnum::A].back()->_rank() == CardRank::King &&
+            sidePiles[(int)SidePileEnum::B].back()->_rank() == CardRank::King &&
+            sidePiles[(int)SidePileEnum::C].back()->_rank() == CardRank::King &&
+            sidePiles[(int)SidePileEnum::D].back()->_rank() == CardRank::King
+        )
+        {
+            clearScreen();
+            printUTF32(gameWin, screenMapSize);
+            stop = true;
+            return 2;
+        }
         if(std::strcmp("draw", input._inputBuffer().data()) == 0 || std::strcmp("Draw", input._inputBuffer().data()) == 0)
         {
             if(drawStack->size() > 0)
@@ -160,6 +177,7 @@ public:
         else if (std::strcmp("exit", input._inputBuffer().data()) == 0 || std::strcmp("Exit", input._inputBuffer().data()) == 0)
         {
             stop = true;
+            return 2;
         }
         else if (std::strcmp("restart", input._inputBuffer().data()) == 0 || std::strcmp("Restart", input._inputBuffer().data()) == 0)
         {
