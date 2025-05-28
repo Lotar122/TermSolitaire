@@ -51,7 +51,7 @@ Wypakuj projekt z pliku **.zip** i wejdz do katalogu projektu.
 ### **Uruchom gotowy plik wykonywalny**
 W katalogu projektu (powershell): 
 ```sh 
-.\bin\Release\Windows\TermSolitaire.exe
+.\bin\Windows\Release\TermSolitaire.exe
 ```
 ### **Skompiluj samodzielnie**
 Otwórz projekt w Visual Studio i skompiluj jako projekt CMake (**niezalecane**)

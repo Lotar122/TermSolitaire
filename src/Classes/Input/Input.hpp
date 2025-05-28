@@ -7,7 +7,7 @@ class Input
 {
     std::string inputBuffer;
 public:
-    void readInput()
+    inline void readInput()
     {
         std::getline(std::cin, inputBuffer);
     }

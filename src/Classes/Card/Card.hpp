@@ -85,7 +85,7 @@ public:
 
     Card() = delete;
 
-    const char32_t getSpriteChar(size_t x, size_t y) const
+    const inline char32_t getSpriteChar(size_t x, size_t y) const
     {
         return up ? cardSprite[y * cardWidth + x] : cardBackSprite[y * cardWidth + x];
     }

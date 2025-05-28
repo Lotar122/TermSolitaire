@@ -89,22 +89,7 @@ class Display
     template<Integer T>
 	void renderInteger(char32_t symbol, T number, size_t x, size_t y, size_t lenght);
 public:
-    Display()
-    {
-        screenDataLump = new char32_t[screenMapSize];
-        screen = new char32_t*[screenMapHeight];
-
-        for(size_t i = 0; i < screenMapHeight; i++)
-        {
-            screen[i] = screenDataLump + (screenMapWidth * i);
-        }
-
-        for(size_t x = 0; x < screenMapWidth; x++)
-		for(size_t y = 0; y < screenMapHeight; y++)
-		{
-			screen[y][x] = screenMap[y * screenMapWidth + x];
-		}
-    }
+    Display();
 
     void render(
         std::vector<std::vector<Card*>>& mainPiles,

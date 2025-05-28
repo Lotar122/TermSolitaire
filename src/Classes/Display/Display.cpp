@@ -1,5 +1,22 @@
 #include "Display.hpp"
 
+Display::Display()
+{
+	screenDataLump = new char32_t[screenMapSize];
+	screen = new char32_t* [screenMapHeight];
+
+	for (size_t i = 0; i < screenMapHeight; i++)
+	{
+		screen[i] = screenDataLump + (screenMapWidth * i);
+	}
+
+	for (size_t x = 0; x < screenMapWidth; x++)
+		for (size_t y = 0; y < screenMapHeight; y++)
+		{
+			screen[y][x] = screenMap[y * screenMapWidth + x];
+		}
+}
+
 void Display::render(
 	std::vector<std::vector<Card*>>& mainPiles,
 	std::vector<std::vector<Card*>>& sidePiles,
