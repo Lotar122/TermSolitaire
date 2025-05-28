@@ -90,15 +90,15 @@ void Logic::handle(
 			if(
 				!leftHand->empty() && !rightHand->empty() && 
 				std::ranges::find_if(sidePiles, [&rightHand](const std::vector<Card*>& v){ return rightHand == &v; }) == sidePiles.end() &&
-				leftHand->back()->isRed() != rightHand->back()->isRed() &&
-				(int)leftHand->back()->_rank() == ((int)rightHand->back()->_rank() - 2)
+				cardsDifferentColors(leftHand->back(), rightHand->back()) &&
+				rankSmallerByOne(leftHand->back(), rightHand->back())
 			)
 			{
 				moveLastElement(leftHand, rightHand);
 				if(!leftHand->empty()) leftHand->back()->up = true;
 			}
 			else if(
-				leftHand->size() > 0 &&
+				!leftHand->empty() &&
 				std::ranges::find_if(sidePiles, [&rightHand](const std::vector<Card*>& v){ return rightHand == &v; }) != sidePiles.end()
 			)
 			{
@@ -109,7 +109,7 @@ void Logic::handle(
 				}
 				else if(
 					!rightHand->empty() &&
-					((int)leftHand->back()->_rank() - 2) == (int)rightHand->back()->_rank() &&
+					rankBiggerByOne(leftHand->back(), rightHand->back()) &&
 					leftHand->back()->_color() == rightHand->back()->_color()
 				)
 				{
@@ -118,7 +118,7 @@ void Logic::handle(
 				}
 			}
 			else if(
-				leftHand->size() > 0 && rightHand->size() == 0 &&
+				!leftHand->empty() && rightHand->empty() &&
 				leftHand->back()->_rank() == CardRank::King
 			)
 			{
@@ -159,22 +159,22 @@ void Logic::handle(
 		if(leftHand && rightHand && rangeEnd <= leftHand->size() && rangeStart >= 1 && leftHand->back()->up)
 		{
 			if(
-				rightHand->size() > 0 &&
-				leftHand->at(rangeStart - 1)->isRed() != rightHand->back()->isRed() &&
-				(int)leftHand->at(rangeStart - 1)->_rank() == (int)rightHand->back()->_rank() - 2
+				!rightHand->empty() &&
+				cardsDifferentColors(leftHand->at(rangeStart - 1), rightHand->back())  &&
+				rankSmallerByOne(leftHand->at(rangeStart - 1), rightHand->back())
 			)
 			{
 				rightHand->insert(rightHand->end(), leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
 				leftHand->erase(leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
 
-				if(leftHand->size() > 0) leftHand->back()->up = true;
+				if(!leftHand->empty()) leftHand->back()->up = true;
 			}
-			else if(leftHand->at(rangeStart - 1)->_rank() == CardRank::King && rightHand->size() == 0)
+			else if(leftHand->at(rangeStart - 1)->_rank() == CardRank::King && rightHand->empty())
 			{
 				rightHand->insert(rightHand->end(), leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
 				leftHand->erase(leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
 
-				if(leftHand->size() > 0) leftHand->back()->up = true;
+				if(!leftHand->empty()) leftHand->back()->up = true;
 			}
 		}
 	}

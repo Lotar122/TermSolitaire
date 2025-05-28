@@ -112,7 +112,7 @@ public:
         for(size_t r = 0; r < cardRankEnumLenght; r++)
         for(size_t c = 0; c < cardColorEnumLenght; c++)
         {
-            deck.push_back(Card(this, (CardColor)c, (CardRank)(r * 2), false));  
+            deck.push_back(Card(this, (CardSymbol)c, (CardRank)(r * 2), false));  
             shuffledDeck.push_back(&deck[deck.size() - 1]); 
         }
 

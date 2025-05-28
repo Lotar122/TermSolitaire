@@ -65,6 +65,21 @@ class Logic
 
 		return std::make_tuple(x, y, z);
 	}
+
+	static inline bool cardsDifferentColors(Card* leftHand, Card* rightHand)
+	{
+		return leftHand->isRed() != rightHand->isRed();
+	}
+
+	static inline bool rankSmallerByOne(Card* leftHand, Card* rightHand)
+	{
+		return static_cast<int>(leftHand->_rank()) == static_cast<int>(rightHand->_rank()) - 2;
+	}
+
+	static inline bool rankBiggerByOne(Card* leftHand, Card* rightHand)
+	{
+		return static_cast<int>(leftHand->_rank()) - 2 == static_cast<int>(rightHand->_rank());
+	}
 public:
     static void handle(
 		std::string& input,

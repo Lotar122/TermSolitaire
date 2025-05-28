@@ -22,7 +22,7 @@ enum class CardRank : uint8_t
 };
 
 constexpr size_t cardColorEnumLenght = 4;
-enum class CardColor : uint8_t
+enum class CardSymbol : uint8_t
 {
     Spades = 0, //Black, ♠
     Clubs = 1, //Black, ♣
@@ -74,25 +74,25 @@ class Game;
 
 class Card
 {
-    CardColor color;
+    CardSymbol color;
     CardRank rank;
 
     char32_t* cardSprite = nullptr;
 public:
     bool up = false;
 
-    Card(Game* game, CardColor _color, CardRank _rank, bool _up = false);
+    Card(Game* game, CardSymbol _color, CardRank _rank, bool _up = false);
 
     Card() = delete;
 
-    char32_t getSpriteChar(size_t x, size_t y)
+    const char32_t getSpriteChar(size_t x, size_t y) const
     {
         return up ? cardSprite[y * cardWidth + x] : cardBackSprite[y * cardWidth + x];
     }
 
-    const inline bool isRed() const { return color == CardColor::Diamonds || color == CardColor::Hearts; };
-    const inline bool isBlack() const { return color == CardColor::Spades || color == CardColor::Clubs; };
+    const inline bool isRed() const { return color == CardSymbol::Diamonds || color == CardSymbol::Hearts; };
+    const inline bool isBlack() const { return color == CardSymbol::Spades || color == CardSymbol::Clubs; };
 
-    const inline CardColor _color() { return color; };
-    const inline CardRank _rank() { return rank; };
+    const inline CardSymbol _color() const { return color; };
+    const inline CardRank _rank() const { return rank; };
 };

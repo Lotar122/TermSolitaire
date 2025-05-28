@@ -2,7 +2,7 @@
 
 #include "Classes/Game/Game.hpp"
 
-Card::Card(Game* game, CardColor _color, CardRank _rank, bool _up)
+Card::Card(Game* game, CardSymbol _color, CardRank _rank, bool _up)
 {
 	color = _color;
 	rank = _rank;
