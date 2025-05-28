@@ -34,7 +34,7 @@ Game::Game()
 
 int Game::update()
 {
-    if (std::strcmp("draw", input._inputBuffer().data()) == 0 || std::strcmp("Draw", input._inputBuffer().data()) == 0)
+    if (std::strcmp("draw", input._inputBuffer().data()) == 0)
     {
         if (drawStack->size() > 0)
         {
@@ -56,12 +56,12 @@ int Game::update()
             std::ranges::shuffle(*drawStack, randomEngine);
         }
     }
-    else if (std::strcmp("exit", input._inputBuffer().data()) == 0 || std::strcmp("Exit", input._inputBuffer().data()) == 0)
+    else if (std::strcmp("exit", input._inputBuffer().data()) == 0)
     {
         stop = true;
         return 2;
     }
-    else if (std::strcmp("restart", input._inputBuffer().data()) == 0 || std::strcmp("Restart", input._inputBuffer().data()) == 0)
+    else if (std::strcmp("restart", input._inputBuffer().data()) == 0)
     {
         return 1;
     }

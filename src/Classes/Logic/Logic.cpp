@@ -20,12 +20,12 @@ std::string_view Logic::trim(std::string_view stringView)
 
 std::pair<std::string_view, std::string_view> Logic::parseInput(std::string_view input)
 {
-	constexpr std::string_view arrow = "->";
+	constexpr std::string_view arrow = ">";
 
 	size_t arrowPosition = input.find(arrow);
-	if (arrowPosition == std::string_view::npos) throw std::system_error(std::error_code(1, std::generic_category()), "Parse error: missing '->'.");
+	if (arrowPosition == std::string_view::npos) throw std::system_error(std::error_code(1, std::generic_category()), "Parse error: missing '>'.");
 
-	if (input.find(arrow, arrowPosition + arrow.size()) != std::string_view::npos) throw std::system_error(std::error_code(1, std::generic_category()), "Parse error: multiple '->' found.");
+	if (input.find(arrow, arrowPosition + arrow.size()) != std::string_view::npos) throw std::system_error(std::error_code(1, std::generic_category()), "Parse error: multiple '>' found.");
 
 	auto lhs = trim(input.substr(0, arrowPosition));
 	auto rhs = trim(input.substr(arrowPosition + arrow.size()));
@@ -92,16 +92,16 @@ void Logic::handle(
 			// case 'E':
 			// 	rightHand = &sidePiles[(int)SidePileEnum::E];
 			// 	break;
-			case 'A':
+			case 'a':
 				rightHand = &sidePiles[(int)SidePileEnum::A];
 				break;
-			case 'B':
+			case 'b':
 				rightHand = &sidePiles[(int)SidePileEnum::B];
 				break;
-			case 'C':
+			case 'c':
 				rightHand = &sidePiles[(int)SidePileEnum::C];
 				break;
-			case 'D':
+			case 'd':
 				rightHand = &sidePiles[(int)SidePileEnum::D];
 				break;
 		}
@@ -123,19 +123,19 @@ void Logic::handle(
 		{
 			switch(parsedInput.first[0])
 			{
-				case 'E':
+				case 'e':
 					leftHand = &sidePiles[(int)SidePileEnum::E];
 					break;
-				case 'A':
+				case 'a':
 					leftHand = &sidePiles[(int)SidePileEnum::A];
 					break;
-				case 'B':
+				case 'b':
 					leftHand = &sidePiles[(int)SidePileEnum::B];
 					break;
-				case 'C':
+				case 'c':
 					leftHand = &sidePiles[(int)SidePileEnum::C];
 					break;
-				case 'D':
+				case 'd':
 					leftHand = &sidePiles[(int)SidePileEnum::D];
 					break;
 			}

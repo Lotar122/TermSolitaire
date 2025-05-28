@@ -41,9 +41,9 @@ Należy wpisać `exit`, po czym gra zakończy się
 ### **Restart Gry**
 Należy wpisać `restart`, po czym gra rozpocznie się od nowa
 ### **Przełożenie kart z góry stosu X na górę stosu Y**
-Należy wpisać komendę: `X -> Y`, gdzie `X` i `Y` to numery bądź litery określające stos
+Należy wpisać komendę: `X > Y`, gdzie `X` i `Y` to numery bądź litery określające stos
 ### **Przełożenie serii kart z końca stosu na koniec stosu**
-W tym celu należy wpisać komendę: `W(X-Y) -> Z`, gdzie `W` to numer określający stos, `X` to początek serii (włącznie, liczone od 1), `Y` to numer określający koniec serii (włącznie liczone od 1), `Z` to number bądź cyfra stosu na który chcemy przełożyć serię
+W tym celu należy wpisać komendę: `W(X-Y) > Z`, gdzie `W` to numer określający stos, `X` to początek serii (włącznie, liczone od 1), `Y` to numer określający koniec serii (włącznie liczone od 1), `Z` to number bądź cyfra stosu na który chcemy przełożyć serię
 
 # 🎮 Przebieg gry
 - Po rozpoczęciu gry można przesuwać karty wobec klasycznych zasad.
