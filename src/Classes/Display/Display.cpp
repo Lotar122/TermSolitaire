@@ -42,11 +42,6 @@ void Display::render(
 			if(sidePiles[i].size() > 0) renderCard(sidePileSymbols[i], sidePiles[i][sidePiles[i].size() - 1], x, y);
 			else renderCard(sidePileSymbols[i], nullptr, x, y);
 		}
-
-		// renderInteger<uint16_t>(U'O', moves, x, y, 3);
-		// renderInteger<uint16_t>(U'P', score, x, y, 3);
-		// renderInteger<uint8_t>(U'Q', minutes, x, y, 2);
-		// renderInteger<uint8_t>(U'R', seconds, x, y, 2);
 	}
 
 	clearScreen();
@@ -112,40 +107,6 @@ void Display::renderCard(char32_t symbol, Card* card, size_t x, size_t y)
 			{
 				screen[yi][xi] = cardBackSprite[(yi - y) * cardWidth + (xi - x)];
 			}
-		}
-	}
-}
-
-template<Integer T>
-void Display::renderInteger(char32_t symbol, T number, size_t x, size_t y, size_t lenght)
-{
-	if(screenMap[y * screenMapWidth + x] == symbol)
-	{
-		//finish the rendering code
-		//the max lenght is 3 only that much is handled
-			
-		//extracts the c in abc
-		//0x30 is the unicode for 0
-		screen[y][x + lenght - 1] = (char32_t)(0x30 + number - ((number / 10) * 10));
-		if((number - ((number / 100) * 100)) / 10)
-		{
-			//extracts the b in abc
-			//0x30 is unicode for 0
-			screen[y][x + lenght - 2] = (char32_t)(0x30 + ((number - ((number / 100) * 100)) / 10));
-		}
-		else
-		{
-			screen[y][x + lenght - 2] = U' ';
-		}
-		if(static_cast<T>((number / 100)))
-		{
-			//extracts the a in abc
-			//0x30 is unicode for 0x30
-			screen[y][x] = (char32_t)(0x30 + (number / 100));
-		}
-		else
-		{
-			screen[y][x] = U' ';
 		}
 	}
 }

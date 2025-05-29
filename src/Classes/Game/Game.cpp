@@ -34,7 +34,7 @@ Game::Game()
 
 int Game::update()
 {
-    if (std::strcmp("draw", input._inputBuffer().data()) == 0)
+    if (std::strcmp("draw", input._inputBuffer().data()) == 0 || std::strcmp("x", input._inputBuffer().data()) == 0)
     {
         if (drawStack->size() > 0)
         {
@@ -87,20 +87,6 @@ int Game::update()
         score, moves
     );
 
-    if (!stop)
-    {
-        //goes to the beggining of the line
-        fputs("\r", stdout);
-        fputs("Command: ", stdout);
-
-        input.readInput();
-
-        //moves one line up
-        fputs("\x1b[1A", stdout);
-        //clears the current line
-        fputs("\x1b[2K", stdout);
-    }
-
     if (
         !sidePiles[(int)SidePileEnum::A].empty() &&
         !sidePiles[(int)SidePileEnum::B].empty() &&
@@ -117,6 +103,20 @@ int Game::update()
         printUTF32(gameWin, screenMapSize);
         stop = true;
         return 2;
+    }
+
+    if (!stop)
+    {
+        //goes to the beggining of the line
+        fputs("\r", stdout);
+        fputs("Command: ", stdout);
+
+        input.readInput();
+
+        //moves one line up
+        fputs("\x1b[1A", stdout);
+        //clears the current line
+        fputs("\x1b[2K", stdout);
     }
 
     return 0;

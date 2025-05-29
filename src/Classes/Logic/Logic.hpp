@@ -13,7 +13,7 @@ class Logic
 {
 	static std::string_view trim(std::string_view stringView);
 	static std::pair<std::string_view, std::string_view> parseInput(std::string_view input);
-	static std::tuple<std::string_view, std::string_view, std::string_view> parseCardRange(std::string_view range);
+	static std::pair<std::string_view, std::string_view> parseCardCount(std::string_view range);
 
 	static inline bool cardsDifferentColors(Card* leftHand, Card* rightHand)
 	{

@@ -36,27 +36,24 @@ std::pair<std::string_view, std::string_view> Logic::parseInput(std::string_view
 	return std::make_pair(lhs, rhs);
 }
 
-std::tuple<std::string_view, std::string_view, std::string_view> Logic::parseCardRange(std::string_view range)
+std::pair<std::string_view, std::string_view> Logic::parseCardCount(std::string_view leftHand)
 {
-	auto openParanthesis = range.find('(');
-	auto dash = range.find('-', openParanthesis);
-	auto closeParanthesis = range.find(')', dash);
+	auto openParanthesis = leftHand.find('(');
+	auto closeParanthesis = leftHand.find(')', openParanthesis);
 
 	if (
 		openParanthesis == std::string_view::npos ||
-		dash == std::string_view::npos ||
 		closeParanthesis == std::string_view::npos ||
-		openParanthesis >= dash || dash >= closeParanthesis
+		openParanthesis >= closeParanthesis
 		)
 	{
 		throw std::system_error(std::error_code(1, std::generic_category()), "Parse error: invalid format, expected X(Y-Z)");
 	}
 
-	std::string_view x = range.substr(0, openParanthesis);
-	std::string_view y = range.substr(openParanthesis + 1, dash - closeParanthesis - 1);
-	std::string_view z = range.substr(dash + 1, closeParanthesis - dash - 1);
+	std::string_view x = leftHand.substr(0, openParanthesis);
+	std::string_view y = leftHand.substr(openParanthesis + 1, closeParanthesis - openParanthesis - 1);
 
-	return std::make_tuple(x, y, z);
+	return std::make_pair(x, y);
 }
 
 void Logic::handle(
@@ -65,7 +62,7 @@ void Logic::handle(
 	std::vector<std::vector<Card*>>& sidePiles
 )
 {
-	auto parsedInput = parseInput(input);
+	std::pair<std::string_view, std::string_view> parsedInput = parseInput(input);
 
 	//if the second operand contains any of these characters its invalid syntax therefore we should not do anyhing;
 	if(
@@ -89,9 +86,6 @@ void Logic::handle(
 		switch(parsedInput.second[0])
 		{
 			// you cant PUT cards onto the E stack
-			// case 'E':
-			// 	rightHand = &sidePiles[(int)SidePileEnum::E];
-			// 	break;
 			case 'a':
 				rightHand = &sidePiles[(int)SidePileEnum::A];
 				break;
@@ -185,52 +179,44 @@ void Logic::handle(
 	}
 	else
 	{
-		auto parsedRange = parseCardRange(parsedInput.first);
-		size_t leftHandIndex = -1, rangeStart = -1, rangeEnd = -1;
+		std::pair<std::string_view, std::string_view> parsedCardCount = parseCardCount(parsedInput.first);
+		int64_t leftHandIndex = -1, cardCount = -1;
 
 		int value;
-		auto result = std::from_chars(std::get<0>(parsedRange).data(), std::get<0>(parsedRange).data() + std::get<0>(parsedRange).size(), value);
-		if(result.ec == std::errc())
+		auto result = std::from_chars(parsedCardCount.first.data(), parsedCardCount.first.data() + parsedCardCount.first.size(), value);
+		if (result.ec == std::errc())
 		{
 			leftHandIndex = value;
 		}
 
-		result = std::from_chars(std::get<1>(parsedRange).data(), std::get<1>(parsedRange).data() + std::get<1>(parsedRange).size(), value);
-		if(result.ec == std::errc())
+		result = std::from_chars(parsedCardCount.second.data(), parsedCardCount.second.data() + parsedCardCount.second.size(), value);
+		if (result.ec == std::errc())
 		{
-			rangeStart = value;
+			cardCount = value;
 		}
 
-		result = std::from_chars(std::get<2>(parsedRange).data(), std::get<2>(parsedRange).data() + std::get<2>(parsedRange).size(), value);
-		if(result.ec == std::errc())
-		{
-			rangeEnd = value;
-		}
-
-		if(leftHandIndex != -1 && rangeStart != -1 && rangeEnd != -1) leftHand = &mainPiles[leftHandIndex - 1];
+		if (leftHandIndex != -1 && cardCount != -1) leftHand = &mainPiles[leftHandIndex - 1];
 		else return;
 
-		if(rangeEnd != leftHand->size()) return;
-
-		if(leftHand && rightHand && rangeEnd <= leftHand->size() && rangeStart >= 1 && leftHand->back()->up)
+		if (leftHand && rightHand && leftHand->size() >= cardCount && leftHand->back()->up)
 		{
-			if(
-				!rightHand->empty() &&
-				cardsDifferentColors(leftHand->at(rangeStart - 1), rightHand->back())  &&
-				rankSmallerByOne(leftHand->at(rangeStart - 1), rightHand->back())
+			if (
+				!rightHand->empty() && !leftHand->empty() &&
+				cardsDifferentColors(leftHand->at(leftHand->size() - cardCount), rightHand->back()) &&
+				rankSmallerByOne(leftHand->at(leftHand->size() - cardCount), rightHand->back())
 			)
 			{
-				rightHand->insert(rightHand->end(), leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
-				leftHand->erase(leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
+				rightHand->insert(rightHand->end(), leftHand->begin() + leftHand->size() - cardCount, leftHand->begin() + leftHand->size());
+				leftHand->erase(leftHand->begin() + leftHand->size() - cardCount, leftHand->begin() + leftHand->size());
 
-				if(!leftHand->empty()) leftHand->back()->up = true;
+				if (!leftHand->empty()) leftHand->back()->up = true;
 			}
-			else if(leftHand->at(rangeStart - 1)->_rank() == CardRank::King && rightHand->empty())
+			else if (leftHand->at(leftHand->size() - cardCount)->_rank() == CardRank::King && rightHand->empty())
 			{
-				rightHand->insert(rightHand->end(), leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
-				leftHand->erase(leftHand->begin() + rangeStart - 1, leftHand->begin() + rangeEnd);
+				rightHand->insert(rightHand->end(), leftHand->begin() + leftHand->size() - cardCount, leftHand->begin() + leftHand->size());
+				leftHand->erase(leftHand->begin() + leftHand->size() - cardCount, leftHand->begin() + leftHand->size());
 
-				if(!leftHand->empty()) leftHand->back()->up = true;
+				if (!leftHand->empty()) leftHand->back()->up = true;
 			}
 		}
 	}

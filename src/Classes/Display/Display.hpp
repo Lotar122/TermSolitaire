@@ -86,8 +86,6 @@ class Display
 
     void renderCardFromPile(const std::vector<Card*>& pile, uint8_t pileID, size_t x, size_t y);
     void renderCard(char32_t symbol, Card* card, size_t x, size_t y);
-    template<Integer T>
-	void renderInteger(char32_t symbol, T number, size_t x, size_t y, size_t lenght);
 public:
     Display();
 
