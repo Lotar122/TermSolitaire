@@ -105,7 +105,7 @@ void Display::renderCard(char32_t symbol, Card* card, size_t x, size_t y)
 		{
 			for(int yi = y; yi < y + cardHeight; yi++)
 			{
-				screen[yi][xi] = cardBackSprite[(yi - y) * cardWidth + (xi - x)];
+				screen[yi][xi] = cardEmptySprite[(yi - y) * cardWidth + (xi - x)];
 			}
 		}
 	}

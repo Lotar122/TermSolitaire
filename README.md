@@ -5,7 +5,7 @@
 
 # 📦 Instalacja
 ### **Wymagania**
-- **CMake** (>= 3.10)
+- **CMake** (>= 3.10) (**jeżeli zamierzasz kompilować**)
 - **C++20 lub nowszy**
 - **Powershell (na Windowsie)**
 
@@ -38,12 +38,12 @@ W katalogu projektu:
 Należy wpisać `draw`, wtedy na stosie `E` pojawi się nowa karta ze stosu rezerwowego
 ### **Wczesne zakończenie gry**
 Należy wpisać `exit`, po czym gra zakończy się
-### **Restart Gry**
+### **Restart gry**
 Należy wpisać `restart`, po czym gra rozpocznie się od nowa
 ### **Przełożenie kart z góry stosu X na górę stosu Y**
 Należy wpisać komendę: `X > Y`, gdzie `X` i `Y` to numery bądź litery określające stos
-### **Przełożenie serii kart z końca stosu na koniec stosu**
-W tym celu należy wpisać komendę: `W(X-Y) > Z`, gdzie `W` to numer określający stos, `X` to początek serii (włącznie, liczone od 1), `Y` to numer określający koniec serii (włącznie liczone od 1), `Z` to number bądź cyfra stosu na który chcemy przełożyć serię
+### **Przełożenie wielu kart z końca stosu na koniec stosu**
+Należy wpisać komendę: `X(Z) > Y`, gdzie `X` i `Y` to numery określające stos, `Z` to liczba kart którą chcesz przełożyć ze stosu X na stos Y
 
 # 🎮 Przebieg gry
 - Po rozpoczęciu gry można przesuwać karty wobec klasycznych zasad.

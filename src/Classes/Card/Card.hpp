@@ -65,6 +65,12 @@ U"|#######|"
 U"|#######|"
 U"|#######|"
 U"└───────┘";
+static const char32_t* cardEmptySprite =
+U"┌───────┐"
+U"|       |"
+U"|       |"
+U"|       |"
+U"└───────┘";
 
 constexpr size_t cardWidth = 9;
 constexpr size_t cardHeight = 5;
